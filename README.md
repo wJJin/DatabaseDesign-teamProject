@@ -62,6 +62,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 # Project Description
+### Project purpose
+호텔 예약 및 매출 관리 시스템을 만들고자 한다. 현재 호텔에 직접 방문하거나 전화를 걸어 객실을 예약하는 경우가 있다. 이는 관리자가 예약을 수기로 입력해야 하고 매출을 포함한 다양한 정보의 파악 및 관리를 어렵게 만든다. 또한, 수기로 운영되는 상황에서 여러 직원이 동시에 예약을 받는다면 객실이 중복예약 될 수 있어 경제적 손실 및 고객 경험 문제를 피할 수 없게 된다.<br>
+위와 같은 문제를 해결하기 위해, 우리는 온라인 호텔 예약 및 매출 관리 시스템을 만들고자 한다. 우리의 시스템의 목적은 크게 회원 관리, 예약 관리, 매출 관리 세 가지이다.
+1. 회원 관리를 통해 객실 변상 등 문제가 발생하면 투숙객 정보를 추적할 수 있다.
+2. 예약을 전산화하면 고객이 원하는 날짜와 호텔에 객실이 남아있는지 확인할 수 있고 중복 예약을 막을 수 있다.
+3. 예약이 데이터 베이스로 남아있어 호텔 관리자는 날짜별, 회원별, 객실별 매출을 파악하고 관리하기 용이해진다.
+
+
+
 
 ### ERD(only Entities)
 
