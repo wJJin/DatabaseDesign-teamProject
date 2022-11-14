@@ -22,11 +22,21 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <br />
     </td>
         <td align="center">
-    <a href="">
-    <img src="0" width="100px;" alt=""/>
+    <a href="https://github.com/dabin3178">
+    <img src="https://avatars.githubusercontent.com/u/83808068?v=4" width="100px;" alt=""/>
     <br />
     <sub>
     <b>DaBin Park</b>
+    </sub>
+    </a>
+    <br />
+    </td>
+        <td align="center">
+    <a href="https://github.com/klll2">
+    <img src="https://avatars.githubusercontent.com/u/60285296?v=4" width="100px;" alt=""/>
+    <br />
+    <sub>
+    <b>HanGyeol Im</b>
     </sub>
     </a>
     <br />
@@ -37,16 +47,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <br />
     <sub>
     <b>SeongWook Jeon</b>
-    </sub>
-    </a>
-    <br />
-    </td>
-        <td align="center">
-    <a href="">
-    <img src="" width="100px;" alt=""/>
-    <br />
-    <sub>
-    <b>HanGyeol Im</b>
     </sub>
     </a>
     <br />
