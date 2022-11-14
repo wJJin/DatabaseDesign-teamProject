@@ -60,6 +60,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+<br>
 
 # Project Description
 ### Project purpose
@@ -68,9 +69,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 1. 회원 관리를 통해 객실 변상 등 문제가 발생하면 투숙객 정보를 추적할 수 있다.
 2. 예약을 전산화하면 고객이 원하는 날짜와 호텔에 객실이 남아있는지 확인할 수 있고 중복 예약을 막을 수 있다.
 3. 예약이 데이터 베이스로 남아있어 호텔 관리자는 날짜별, 회원별, 객실별 매출을 파악하고 관리하기 용이해진다.
-
-
-
+<br>
 
 ### ERD(only Entities)
 
@@ -89,3 +88,8 @@ Reservation(Res_ID, Gst_ID, Res_Date, Start_date, End_date, Num_of_Guests, Num_o
 Guest(Gst_ID, Gst_fname, Gst_lname, Address, Phone_num, Email, Dob)
 Bill(Bill_ID, Res_ID, Gst_ID, Total_price, Start_date, End_date, pay_date)
 ```
+<br>
+
+### SQL Workbench
+<img src="https://user-images.githubusercontent.com/81296203/201728278-afdc0d24-895a-4f8a-b7de-5ee43655924d.png" height="400"/>
+
