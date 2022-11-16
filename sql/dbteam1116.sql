@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `demo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `demo`;
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
--- Host: localhost    Database: demo
+-- Host: localhost    Database: dbteam
 -- ------------------------------------------------------
 -- Server version	8.0.21
 
@@ -25,8 +23,8 @@ DROP TABLE IF EXISTS `bill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bill` (
-  `BILL_ID` int NOT NULL,
-  `RES_ID` int NOT NULL,
+  `BILL_ID` varchar(10) NOT NULL,
+  `RES_ID` varchar(10) NOT NULL,
   `GST_ID` varchar(12) NOT NULL,
   `BILL_TOT` int NOT NULL,
   `BILL_PDATE` date NOT NULL,
@@ -34,8 +32,10 @@ CREATE TABLE `bill` (
   UNIQUE KEY `BILL_ID_UNIQUE` (`BILL_ID`),
   UNIQUE KEY `RES_ID_UNIQUE` (`RES_ID`),
   UNIQUE KEY `GST_ID_UNIQUE` (`GST_ID`),
-  CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`RES_ID`) REFERENCES `reservation` (`RES_ID`),
-  CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`GST_ID`) REFERENCES `guest` (`GST_ID`)
+  UNIQUE KEY `BILL_TOT_UNIQUE` (`BILL_TOT`),
+  UNIQUE KEY `BILL_PDATE_UNIQUE` (`BILL_PDATE`),
+  CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`RES_ID`) REFERENCES `reservation` (`RES_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`GST_ID`) REFERENCES `guest` (`GST_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,15 +56,15 @@ DROP TABLE IF EXISTS `booking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `booking` (
-  `BK_ID` int NOT NULL,
-  `RES_ID` int NOT NULL,
-  `ROOM_ID` int NOT NULL,
+  `BK_ID` varchar(10) NOT NULL,
+  `RES_ID` varchar(10) NOT NULL,
+  `ROOM_ID` varchar(4) NOT NULL,
   PRIMARY KEY (`BK_ID`),
   UNIQUE KEY `BK_ID_UNIQUE` (`BK_ID`),
-  UNIQUE KEY `ROOM_ID_UNIQUE` (`ROOM_ID`),
   UNIQUE KEY `RES_ID_UNIQUE` (`RES_ID`),
-  CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`RES_ID`) REFERENCES `reservation` (`RES_ID`),
-  CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`ROOM_ID`) REFERENCES `room` (`ROOM_ID`)
+  UNIQUE KEY `ROOM_ID_UNIQUE` (`ROOM_ID`),
+  CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`RES_ID`) REFERENCES `reservation` (`RES_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`ROOM_ID`) REFERENCES `room` (`ROOM_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -85,16 +85,16 @@ DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `employee` (
-  `EMP_ID` int NOT NULL,
+  `EMP_ID` varchar(12) NOT NULL,
   `EMP_FNAME` varchar(10) NOT NULL,
   `EMP_LNAME` varchar(10) NOT NULL,
-  `HOTEL_ID` int NOT NULL,
+  `HOTEL_ID` varchar(10) NOT NULL,
   `EMP_ROLE` varchar(10) NOT NULL,
-  `EMP_PHONE` int NOT NULL,
+  `EMP_PHONE` char(11) NOT NULL,
   PRIMARY KEY (`EMP_ID`),
-  UNIQUE KEY `EMP_ID_UNIQUE` (`EMP_ID`),
   UNIQUE KEY `HOTEL_ID_UNIQUE` (`HOTEL_ID`),
-  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`HOTEL_ID`) REFERENCES `hotel` (`HOTEL_ID`)
+  UNIQUE KEY `EMP_PHONE_UNIQUE` (`EMP_PHONE`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`HOTEL_ID`) REFERENCES `hotel` (`HOTEL_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,13 +119,13 @@ CREATE TABLE `guest` (
   `GST_FNAME` varchar(10) NOT NULL,
   `GST_LNAME` varchar(10) NOT NULL,
   `GST_ADD` varchar(45) NOT NULL,
-  `GST_PHONE` int NOT NULL,
-  `GST_EMAIL` varchar(20) NOT NULL,
-  `GST_JOB` varchar(10) DEFAULT NULL,
+  `GST_PHONE` char(11) NOT NULL,
+  `GST_EMAIL` varchar(25) NOT NULL,
+  `GST_DOB` date NOT NULL,
   PRIMARY KEY (`GST_ID`),
-  UNIQUE KEY `GST_ID_UNIQUE` (`GST_ID`),
   UNIQUE KEY `GST_PHONE_UNIQUE` (`GST_PHONE`),
-  UNIQUE KEY `GST_EMAIL_UNIQUE` (`GST_EMAIL`)
+  UNIQUE KEY `GST_EMAIL_UNIQUE` (`GST_EMAIL`),
+  UNIQUE KEY `GST_ID_UNIQUE` (`GST_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,13 +146,14 @@ DROP TABLE IF EXISTS `hotel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hotel` (
-  `HOTEL_ID` int NOT NULL,
+  `HOTEL_ID` varchar(10) NOT NULL,
   `HOTEL_NAME` varchar(20) NOT NULL,
   `HOTEL_ADD` varchar(45) NOT NULL,
-  `HOTEL_PHONE` int NOT NULL,
-  `HOTEL_FAX` int DEFAULT NULL,
+  `HOTEL_PHONE` char(11) NOT NULL,
+  `HOTEL_FAX` char(10) DEFAULT NULL,
   PRIMARY KEY (`HOTEL_ID`),
-  UNIQUE KEY `HOTEL_ID_UNIQUE` (`HOTEL_ID`)
+  UNIQUE KEY `HOTEL_ID_UNIQUE` (`HOTEL_ID`),
+  UNIQUE KEY `HOTEL_PHONE_UNIQUE` (`HOTEL_PHONE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -173,7 +174,7 @@ DROP TABLE IF EXISTS `reservation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reservation` (
-  `RES_ID` int NOT NULL,
+  `RES_ID` varchar(10) NOT NULL,
   `GST_ID` varchar(12) NOT NULL,
   `RES_DATE` date NOT NULL,
   `RES_NOG` int NOT NULL,
@@ -181,9 +182,9 @@ CREATE TABLE `reservation` (
   `RES_SDATE` date NOT NULL,
   `RES_EDATE` date NOT NULL,
   PRIMARY KEY (`RES_ID`),
-  UNIQUE KEY `RES_ID_UNIQUE` (`RES_ID`),
   UNIQUE KEY `GST_ID_UNIQUE` (`GST_ID`),
-  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`GST_ID`) REFERENCES `guest` (`GST_ID`)
+  UNIQUE KEY `RES_ID_UNIQUE` (`RES_ID`),
+  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`GST_ID`) REFERENCES `guest` (`GST_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,16 +205,16 @@ DROP TABLE IF EXISTS `room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `room` (
-  `ROOM_ID` int NOT NULL,
-  `HOTEL_ID` int NOT NULL,
-  `RT_ID` int NOT NULL,
-  `ROOM_FLOOR` int NOT NULL,
+  `ROOM_ID` varchar(4) NOT NULL,
+  `HOTEL_ID` varchar(10) NOT NULL,
+  `RT_ID` varchar(20) NOT NULL,
+  `ROOM_FLOOR` varchar(2) NOT NULL,
   PRIMARY KEY (`ROOM_ID`),
   UNIQUE KEY `ROOM_ID_UNIQUE` (`ROOM_ID`),
   UNIQUE KEY `HOTEL_ID_UNIQUE` (`HOTEL_ID`),
-  UNIQUE KEY `RT_ID_UNIQUE` (`RT_ID`),
-  CONSTRAINT `room_ibfk_1` FOREIGN KEY (`HOTEL_ID`) REFERENCES `hotel` (`HOTEL_ID`),
-  CONSTRAINT `room_ibfk_2` FOREIGN KEY (`RT_ID`) REFERENCES `roomtype` (`RT_ID`)
+  KEY `RT_ID_idx` (`RT_ID`),
+  CONSTRAINT `room_ibfk_1` FOREIGN KEY (`HOTEL_ID`) REFERENCES `hotel` (`HOTEL_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `room_ibfk_2` FOREIGN KEY (`RT_ID`) REFERENCES `roomtype` (`RT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -234,10 +235,10 @@ DROP TABLE IF EXISTS `roomtype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roomtype` (
-  `RT_ID` int NOT NULL,
+  `RT_ID` varchar(20) NOT NULL,
   `RT_PRICE` int NOT NULL,
   `RT_CAPA` int NOT NULL,
-  `RT_BEDS` int NOT NULL,
+  `RT_NOB` int NOT NULL,
   PRIMARY KEY (`RT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -252,11 +253,11 @@ LOCK TABLES `roomtype` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'demo'
+-- Dumping events for database 'dbteam'
 --
 
 --
--- Dumping routines for database 'demo'
+-- Dumping routines for database 'dbteam'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -268,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13  4:43:01
+-- Dump completed on 2022-11-16  9:48:27
